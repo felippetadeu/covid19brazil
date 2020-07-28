@@ -1,0 +1,36 @@
+.sidebar {
+  display: flex;
+  max-width: 250px;
+  min-width: 250px;
+  z-index: 1000;
+  min-height: 100%;
+  background-color: green;
+  &.fixed {
+    position: fixed;
+    left: 0;
+  }
+  .sidebar-content{
+    min-height: 768px;
+    overflow: auto;
+    .logo {
+      height: 60px;
+      min-height: 60px;
+      background-color: blue;
+    }
+    .menu {
+      height: 80%;
+      padding: 5px;
+      .selecao-estado {
+        padding-bottom: 15px;
+      }
+      .select {
+        width: 100%;
+        height: 35px;
+        border-radius: 5px;
+        padding: 5px;;
+      }
+    }
+    .direitos-autorais {
+    }
+  }
+}

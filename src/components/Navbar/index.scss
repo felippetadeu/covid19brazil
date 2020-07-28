@@ -1,0 +1,14 @@
+nav {
+  padding: 15px 12px 15px 250px;
+  width: 100%;
+  display: flex;
+  background-color: red;
+  z-index: 900;
+  max-height: 30px;
+  min-height: 30px;
+  &.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+}

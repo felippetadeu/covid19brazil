@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
-import ptBr from 'moment/locale/pt-br'
+import 'moment/locale/pt-br'
 import DataTable from 'react-data-table-component'
+import { useSelector } from 'react-redux'
+
 import { getCOVIDInfo } from '../../services/brasilIOServices'
 import { getUfs, getMunicipios } from '../../services/ibgeServices'
+import { uf, municipio } from '../../features/brasilIO/brasilIOSlice'
 
 moment.locale('pt-Br')
 export default function Home() {
-
-  const [city, setCity] = useState('')
-  const [uf, setUf] = useState('')
+  const cidade = useSelector(municipio)
+  const estado = useSelector(uf)
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
   const columns = [
@@ -23,47 +25,6 @@ export default function Home() {
   const [ufs, setUfs] = useState([])
   const [municipios, setMunicipios] = useState([])
 
-  async function getListaUF() {
-    const response = await getUfs()
-    if (response.status === 200){
-      setUfs(response.data.sort(function (a, b){
-        if (a.sigla < b.sigla) return -1;
-        if (a.sigla > b.sigla) return 1;
-        return 0;
-      }).map(r => {
-        return {
-          id: r.sigla,
-          text: r.sigla
-        }
-      }))
-    }
-  }
-
-  async function getListaMunicipio(uf){
-    const response = await getMunicipios(uf)
-    if (response.status === 200){
-      setMunicipios(response.data.sort(function (a, b){
-        if (a.nome < b.nome) return -1;
-        if (a.nome > b.nome) return 1;
-        return 0;
-      }).map(r => {
-        return {
-          id: r.nome,
-          text: r.nome
-        }
-      }))
-    }
-  }
-
-  useEffect(() => {
-    getListaUF() 
-  }, [])
-
-  useEffect(() => {
-    if (uf)
-      getListaMunicipio(uf)
-  }, [uf])
-
   useEffect(() => {
     results.map(r => {
       r.date = moment(new Date(r.date + "T00:00:00")).format('DD/MM/YYYY - dddd')
@@ -73,7 +34,7 @@ export default function Home() {
   }, [results])
 
   const handleCOVIDClick = async () => {
-    const response = await getCOVIDInfo(uf, city)
+    const response = await getCOVIDInfo(estado, cidade)
     setLoading(true)
     if (response.status === 200){
       setResults(response.data.results)
@@ -85,16 +46,8 @@ export default function Home() {
     <div className="">
       <div>
         
-        <select value={uf} onChange={(e) => setUf(e.target.value)}>
-          {ufs.map((u => {
-            return <option value={u.id}>{u.text}</option>
-          }))}
-        </select>
-        <select value={city} onChange={(e) => setCity(e.target.value)}>
-          {municipios.map((u => {
-            return <option value={u.id}>{u.text}</option>
-          }))}
-        </select>
+        {cidade}
+        {estado}
         
         <button onClick={handleCOVIDClick}>COVID</button>
       </div>
