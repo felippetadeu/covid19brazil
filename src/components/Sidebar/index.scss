@@ -2,6 +2,27 @@
   display: flex;
   max-width: 250px;
   min-width: 250px;
+  @media (max-width: 600px) {
+    &.opened{
+      max-width: none;
+    }
+    &.closed {
+      max-width: 60px;
+      min-width: 60px;
+      .sidebar-content{
+        .logo{
+          width: 60px;
+        }
+        .menu{
+          display: none;
+          height: 75%;
+        }
+        .direitos-autorais{
+          display: none;
+        }
+      }
+    }
+  }
   z-index: 1000;
   min-height: 100%;
   background-color: green;

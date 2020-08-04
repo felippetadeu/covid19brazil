@@ -8,6 +8,7 @@ import { alterarUf, alterarMunicipio } from '../../features/brasilIO/brasilIOSli
 export default function Sidebar(){
   const dispatch = useDispatch()
 
+  const [menuAberto, setMenuAberto] = useState(false)
   const [ufs, setUfs] = useState([])
   const [uf, setUf] = useState('')
   const [municipios, setMunicipios] = useState([])
@@ -66,9 +67,9 @@ export default function Sidebar(){
   }
 
   return (
-    <div className="sidebar fixed">
+    <div className={"sidebar fixed" + (menuAberto ? " opened " : " closed ") }>
       <div className="sidebar-content">
-        <div className="logo"></div>
+        <div className="logo" onClick={() => setMenuAberto(!menuAberto)}></div>
         <div className="menu">
           <div className="selecao-estado">    
             <select value={uf} onChange={(e) => atualizarUf(e.target.value)} className="select">
